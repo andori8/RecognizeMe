@@ -31,7 +31,8 @@ class App extends Component {
     input: '',
     url: '',
     box: {},
-    route: 'signin'
+    route: 'signin',
+    signedIn: false
   }
 
   calculateFaceLocation = data => {
@@ -63,6 +64,11 @@ class App extends Component {
   }
 
   onRouteChange = (route) => {
+    if ( route === 'signout') {
+      this.setState({ signedIn: false })
+    } else if (route === 'home') {
+      this.setState({ signedIn: true })
+    }
     this.setState({ route: route })
   }
 
@@ -70,7 +76,7 @@ class App extends Component {
     return (
       <div className="App">
         <Particles className="particles" params={particlesOptions}/>
-        <Navigation onRouteChange={this.onRouteChange}/>
+        <Navigation signedIn={this.state.signedIn} onRouteChange={this.onRouteChange}/>
         { this.state.route === 'home' ?
         <div>
             <Logo />
