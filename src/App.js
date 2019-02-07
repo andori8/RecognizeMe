@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Particles from 'react-particles-js';
 import Clarifai from 'clarifai';
 import Navigation from './components/navigation/Navigation';
+import Signin from './components/signin/Signin';
 import Logo from './components/logo/Logo';
 import Rank from './components/rank/Rank';
 import SearchBox from './components/SearchBox/SearchBox';
@@ -28,7 +29,8 @@ class App extends Component {
   state = {
     input: '',
     url: '',
-    box: {}
+    box: {},
+    route: 'signin'
   }
 
   calculateFaceLocation = data => {
@@ -59,15 +61,24 @@ class App extends Component {
     .catch(err => console.log(err));
   }
 
+  onRouteChange = (route) => {
+    this.setState({ route: route })
+  }
+
   render() {
     return (
       <div className="App">
         <Particles className="particles" params={particlesOptions}/>
-        <Navigation />
-        <Logo />
-        <Rank />
-        <SearchBox handleChange={this.handleChange} onSubmit={this.handleSubmit}/>
-        <FaceRecognition box={this.state.box} url={this.state.url}/>
+        <Navigation onRouteChange={this.onRouteChange}/>
+        { this.state.route === 'signin' ?
+        <Signin onRouteChange={this.onRouteChange}/>
+        : <div>
+            <Logo />
+            <Rank />
+            <SearchBox handleChange={this.handleChange} onSubmit={this.handleSubmit}/>
+            <FaceRecognition box={this.state.box} url={this.state.url}/>
+          </div>
+        }
       </div>
     );
   }
