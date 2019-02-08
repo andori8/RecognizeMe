@@ -32,7 +32,14 @@ class App extends Component {
     url: '',
     box: {},
     route: 'signin',
-    signedIn: false
+    signedIn: false,
+    user: {
+      id: '',
+      name: '',
+      email: '',
+      entries: 0,
+      joined: ''
+    }
   }
 
   calculateFaceLocation = data => {
